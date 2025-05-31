@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Check, Lightbulb } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Lightbulb, FileText } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Modal } from "@/components/modal";
 import HypothesisTracker from "@/components/hypothesis-tracker";
@@ -44,6 +44,7 @@ export default function BiasLevelPage() {
 
   const [showConclusion, setShowConclusion] = useState(false);
   const [isHypothesisModalOpen, setIsHypothesisModalOpen] = useState(false);
+  const [isEvidenceModalOpen, setIsEvidenceModalOpen] = useState(false);
 
   // Obtener el sesgo de los parámetros de la URL
   const biasParam = params.bias as string;
@@ -198,6 +199,16 @@ export default function BiasLevelPage() {
           <Button
             variant="ghost"
             size="icon"
+            onClick={() => setIsEvidenceModalOpen(true)}
+            className="rounded-full hover:bg-zinc-800/30"
+            title="Tablero de Evidencias"
+          >
+            <FileText className="h-5 w-5 text-amber-500" />
+            <span className="sr-only">Tablero de Evidencias</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setIsHypothesisModalOpen(true)}
             className="rounded-full hover:bg-zinc-800/30"
             title="Rastreador de Hipótesis"
@@ -220,9 +231,8 @@ export default function BiasLevelPage() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           <HypothesisTracker />
-          <EvidenceBoard />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -299,8 +309,18 @@ export default function BiasLevelPage() {
         isOpen={isHypothesisModalOpen}
         onClose={() => setIsHypothesisModalOpen(false)}
         title="Rastreador de Hipótesis"
+        size="xl"
       >
         <HypothesisTracker />
+      </Modal>
+      
+      <Modal
+        isOpen={isEvidenceModalOpen}
+        onClose={() => setIsEvidenceModalOpen(false)}
+        title="Tablero de Evidencias"
+        size="xl"
+      >
+        <EvidenceBoard />
       </Modal>
     </div>
   )
