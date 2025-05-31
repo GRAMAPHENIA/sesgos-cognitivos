@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <div className="fixed top-4 right-4 z-50">
-            <ThemeToggle />
+            
           </div>
           <main className="container mx-auto px-4 py-8 relative">{children}</main>
         </ThemeProvider>

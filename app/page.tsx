@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-4">
       <div className="flex flex-col items-center justify-center flex-1 pb-8">
-        <div className="text-zinc-800 text-6xl md:text-[190px] text-center font-bold ">
+        <div className="text-zinc-800 text-[190px] text-center font-bold ">
           ⫘
         </div>
         <div className="space-y-4">
