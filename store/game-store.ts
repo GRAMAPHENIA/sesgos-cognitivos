@@ -2,6 +2,7 @@
 
 import { create } from "zustand"
 import { v4 as uuidv4 } from "uuid"
+import { toast } from "@/components/ui/use-toast"
 import type { BiasType, GameState, GameActions, Hypothesis, Evidence, Level, Score, Decision } from "@/types/game"
 
 // Estado inicial para cada puntuación
@@ -20,6 +21,7 @@ const initialState: GameState = {
   discoveredEvidences: [],
   madeDecisions: [],
   biasProgress: 0,
+  newEvidencesCount: 0, // Contador de nuevas evidencias
   scores: {
     confirmacion: { ...initialScore },
     anclaje: { ...initialScore },
@@ -46,6 +48,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       discoveredEvidences: [],
       madeDecisions: [],
       biasProgress: 0,
+      newEvidencesCount: 0, // Reiniciar contador al cargar un nuevo nivel
     })
   },
 
@@ -103,68 +106,68 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
     set((state) => ({
       discoveredEvidences: [...state.discoveredEvidences, newEvidence],
+      newEvidencesCount: state.newEvidencesCount + 1, // Incrementar contador
     }))
 
     // Actualizar el progreso del sesgo
     get().calculateBiasProgress()
   },
+  
+  // Reiniciar el contador de notificaciones de evidencias
+  resetNewEvidencesCount: () => {
+    set({ newEvidencesCount: 0 })
+  },
 
   // Tomar una decisión
   makeDecision: (decisionId: string, optionId: string) => {
-    const { currentLevel, madeDecisions, currentBias, scores } = get()
-
+    const { currentLevel, madeDecisions } = get()
     if (!currentLevel) return
 
     const decision = currentLevel.decisions.find((d) => d.id === decisionId)
-    if (!decision || madeDecisions.some((d) => d.id === decisionId)) return
+    if (!decision) return
 
     const option = decision.options.find((o) => o.id === optionId)
     if (!option) return
 
-    const updatedDecision: Decision = {
+    // Registrar la decisión tomada
+    const newDecision: Decision = {
       ...decision,
       madeAt: new Date(),
       selectedOptionId: optionId,
     }
 
-    // Actualizar decisiones tomadas
+    // Aplicar consecuencias de la decisión
     set((state) => ({
-      madeDecisions: [...state.madeDecisions, updatedDecision],
+      madeDecisions: [...state.madeDecisions, newDecision],
     }))
 
-    // Desbloquear nuevas evidencias
-    option.unlocksEvidenceIds.forEach((evidenceId) => {
+    // Contar cuántas evidencias se van a desbloquear
+    const newEvidences = option.unlocksEvidenceIds?.filter(
+      (evidenceId) => !get().discoveredEvidences.some((e) => e.id === evidenceId)
+    ) || []
+
+    // Descubrir evidencias desbloqueadas por esta opción
+    option.unlocksEvidenceIds?.forEach((evidenceId) => {
       get().discoverEvidence(evidenceId)
     })
 
-    // Actualizar puntuación
-    const updatedScore = { ...scores[currentBias] }
-
-    // Si la opción tiene un impacto positivo en la puntuación
-    if (option.scoreImpact > 0) {
-      updatedScore.correctDecisions += 1
+    // Mostrar notificación si se desbloquearon evidencias
+    if (newEvidences.length > 0) {
+      const evidence = currentLevel.evidences.find(e => e.id === newEvidences[0])
+      if (evidence) {
+        toast({
+          title: `¡Nueva${newEvidences.length > 1 ? 's' : ''} evidencia${newEvidences.length > 1 ? 's' : ''} desbloqueada${newEvidences.length > 1 ? 's' : ''}!`,
+          description: newEvidences.length > 1 
+            ? `Has desbloqueado ${newEvidences.length} nuevas evidencias` 
+            : evidence.title,
+          variant: "default",
+          duration: 5000,
+        })
+      }
     }
 
-    // Si la opción ayuda a evitar el sesgo
-    if (option.biasInfluence < 0) {
-      updatedScore.biasesAvoided += 1
-    }
-
-    // Pensamiento crítico basado en la combinación de decisiones correctas y sesgos evitados
-    updatedScore.criticalThinking = Math.floor((updatedScore.correctDecisions + updatedScore.biasesAvoided) / 2)
-
-    // Calcular puntuación total
-    updatedScore.total = updatedScore.correctDecisions + updatedScore.biasesAvoided + updatedScore.criticalThinking
-
-    set((state) => ({
-      scores: {
-        ...state.scores,
-        [currentBias]: updatedScore,
-      },
-    }))
-
-    // Actualizar el progreso del sesgo basado en la influencia de la decisión
-    get().updateBiasProgress(get().biasProgress + option.biasInfluence)
+    // Actualizar el progreso del sesgo
+    get().calculateBiasProgress()
   },
 
   // Actualizar el progreso del sesgo
@@ -198,12 +201,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   resetGame: () => {
     set({
       ...initialState,
-      scores: {
-        confirmacion: { ...initialScore },
-        anclaje: { ...initialScore },
-        aversion: { ...initialScore },
-        halo: { ...initialScore },
-      },
+      newEvidencesCount: 0, // Asegurarse de que el contador se reinicie
     })
   },
 

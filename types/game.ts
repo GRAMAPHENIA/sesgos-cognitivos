@@ -93,6 +93,7 @@ export interface GameState {
   discoveredEvidences: Evidence[]
   madeDecisions: Decision[]
   biasProgress: number // 0-100, 0 = completamente sesgado, 100 = sesgo superado
+  newEvidencesCount: number // Contador de nuevas evidencias no vistas
   scores: Record<BiasType, Score>
   completedLevels: BiasType[]
 }
@@ -109,4 +110,9 @@ export interface GameActions {
   updateBiasProgress: (value: number) => void
   completeLevel: () => void
   resetGame: () => void
+  // Métodos auxiliares
+  shouldFilterEvidence: (evidence: Evidence) => boolean
+  updateFilteredEvidences: () => void
+  calculateBiasProgress: () => void
+  resetNewEvidencesCount: () => void
 }

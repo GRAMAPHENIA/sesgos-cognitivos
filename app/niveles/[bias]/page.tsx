@@ -45,6 +45,8 @@ export default function BiasLevelPage() {
   const [showConclusion, setShowConclusion] = useState(false);
   const [isHypothesisModalOpen, setIsHypothesisModalOpen] = useState(false);
   const [isEvidenceModalOpen, setIsEvidenceModalOpen] = useState(false);
+  const newEvidencesCount = useGameStore((state) => state.newEvidencesCount);
+  const resetNewEvidencesCount = useGameStore((state) => state.resetNewEvidencesCount);
 
   // Obtener el sesgo de los parámetros de la URL
   const biasParam = params.bias as string;
@@ -196,16 +198,26 @@ export default function BiasLevelPage() {
           <ArrowLeft className="mr-2 h-4 w-4" /> Volver al Inicio
         </Button>
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsEvidenceModalOpen(true)}
-            className="rounded-full hover:bg-zinc-800/30"
-            title="Tablero de Evidencias"
-          >
-            <FileText className="h-5 w-5 text-amber-500" />
-            <span className="sr-only">Tablero de Evidencias</span>
-          </Button>
+          <div className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                setIsEvidenceModalOpen(true);
+                resetNewEvidencesCount();
+              }}
+              className="rounded-full hover:bg-zinc-800/30 relative"
+              title="Tablero de Evidencias"
+            >
+              <FileText className="h-5 w-5 text-amber-500" />
+              <span className="sr-only">Tablero de Evidencias</span>
+              {newEvidencesCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                  {newEvidencesCount}
+                </span>
+              )}
+            </Button>
+          </div>
           <Button
             variant="ghost"
             size="icon"
@@ -230,10 +242,6 @@ export default function BiasLevelPage() {
             <p>{currentLevel.introduction}</p>
           </CardContent>
         </Card>
-
-        <div className="grid grid-cols-1 gap-6">
-          <HypothesisTracker />
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <SuspectHistory />
