@@ -1,7 +1,7 @@
 // app/niveles/[bias]/components/modals/EvidenceBoardModal.tsx
 
 import { Modal } from "@/components/modal";
-import { EvidenceBoard } from "@/components/evidence-board";
+import EvidenceBoard from "@/components/evidence-board";
 
 interface EvidenceBoardModalProps {
   isOpen: boolean;

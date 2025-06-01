@@ -1,7 +1,7 @@
 // app/niveles/[bias]/components/modals/CognitiveProgressModal.tsx
 
 import { Modal } from "@/components/modal";
-import { CognitiveProgressBar } from "@/components/cognitive-progress-bar";
+import CognitiveProgressBar from "@/components/cognitive-progress-bar";
 
 interface CognitiveProgressModalProps {
   isOpen: boolean;

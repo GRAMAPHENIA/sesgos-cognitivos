@@ -1,7 +1,7 @@
 // app/niveles/[bias]/components/modals/SuspectHistoryModal.tsx
 
 import { Modal } from "@/components/modal";
-import { SuspectHistory } from "@/components/suspect-history";
+import SuspectHistory from "@/components/suspect-history";
 
 interface SuspectHistoryModalProps {
   isOpen: boolean;

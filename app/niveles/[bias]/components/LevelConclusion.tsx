@@ -3,7 +3,7 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
-import { ScoreCard } from "@/components/score-card";
+import ScoreCard from "@/components/score-card";
 
 interface LevelConclusionProps {
   currentBias: string;

@@ -1,7 +1,7 @@
 // app/niveles/[bias]/components/modals/HypothesisTrackerModal.tsx
 
 import { Modal } from "@/components/modal";
-import { HypothesisTracker } from "@/components/hypothesis-tracker";
+import HypothesisTracker from "@/components/hypothesis-tracker";
 
 interface HypothesisTrackerModalProps {
   isOpen: boolean;
