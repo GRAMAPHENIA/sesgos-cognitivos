@@ -20,7 +20,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center flex-1 pb-8">
         <div className="relative w-64 h-64 mb-8">
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="Logo"
             fill
             className="object-contain"
