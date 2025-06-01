@@ -47,35 +47,33 @@ export default function SuspectHistory() {
   }
 
   return (
-    <Card className="dotted-border bg-card/50 backdrop-blur-sm">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-xl flex items-center gap-2">
-          <Users className="h-5 w-5 text-amber-500" />
-          Historial de Sospechosos
-        </CardTitle>
-        <CardDescription>Información detallada sobre cada persona involucrada en el caso.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {suspects.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
-            <User className="h-10 w-10 mx-auto mb-3 opacity-30" />
-            <p>No hay sospechosos disponibles en este nivel.</p>
-          </div>
-        ) : (
-          <Tabs value={selectedSuspect || suspects[0].id} onValueChange={setSelectedSuspect} className="space-y-4">
-            <TabsList className="w-full bg-secondary/50">
-              {suspects.map((suspect) => (
-                <TabsTrigger key={suspect.id} value={suspect.id} className="flex-1">
-                  {suspect.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+    <div className="h-full">
+      {suspects.length === 0 ? (
+        <div className="text-center py-8 text-muted-foreground">
+          <User className="h-10 w-10 mx-auto mb-3 opacity-30" />
+          <p>No hay sospechosos disponibles en este nivel.</p>
+        </div>
+      ) : (
+        <Tabs 
+          value={selectedSuspect || suspects[0].id} 
+          onValueChange={setSelectedSuspect} 
+          className="h-full flex flex-col"
+          defaultValue={suspects[0].id}
+        >
+          <TabsList className="w-full bg-secondary/50 mb-4">
+            {suspects.map((suspect) => (
+              <TabsTrigger key={suspect.id} value={suspect.id} className="flex-1">
+                {suspect.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
+          <div className="flex-1 overflow-auto pr-2">
             {suspects.map((suspect) => {
               const modifiedSuspect = applySesgoEffects(suspect)
 
               return (
-                <TabsContent key={suspect.id} value={suspect.id} className="space-y-4">
+                <TabsContent key={suspect.id} value={suspect.id} className="space-y-4 m-0 h-full">
                   <div className="space-y-4">
                     <div className="p-4 rounded-md dotted-border bg-secondary/20">
                       <h3 className="font-medium mb-2">Perfil</h3>
@@ -114,9 +112,9 @@ export default function SuspectHistory() {
                 </TabsContent>
               )
             })}
-          </Tabs>
-        )}
-      </CardContent>
-    </Card>
+          </div>
+        </Tabs>
+      )}
+    </div>
   )
 }

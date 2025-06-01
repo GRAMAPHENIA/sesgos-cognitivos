@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Check, Lightbulb, FileText } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Lightbulb, FileText, User, BrainCircuit, Award } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Modal } from "@/components/modal";
 import HypothesisTracker from "@/components/hypothesis-tracker";
@@ -45,6 +45,9 @@ export default function BiasLevelPage() {
   const [showConclusion, setShowConclusion] = useState(false);
   const [isHypothesisModalOpen, setIsHypothesisModalOpen] = useState(false);
   const [isEvidenceModalOpen, setIsEvidenceModalOpen] = useState(false);
+  const [isSuspectHistoryModalOpen, setIsSuspectHistoryModalOpen] = useState(false);
+  const [isCognitiveProgressOpen, setIsCognitiveProgressOpen] = useState(false);
+  const [isScoreCardOpen, setIsScoreCardOpen] = useState(false);
   const newEvidencesCount = useGameStore((state) => state.newEvidencesCount);
   const resetNewEvidencesCount = useGameStore((state) => state.resetNewEvidencesCount);
 
@@ -198,24 +201,56 @@ export default function BiasLevelPage() {
           <ArrowLeft className="mr-2 h-4 w-4" /> Volver al Inicio
         </Button>
         <div className="flex items-center gap-2">
-          <div className="relative">
+          <div className="flex items-center gap-1">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => {
-                setIsEvidenceModalOpen(true);
-                resetNewEvidencesCount();
-              }}
-              className="rounded-full hover:bg-zinc-800/30 relative"
-              title="Tablero de Evidencias"
+              onClick={() => setIsScoreCardOpen(true)}
+              className="rounded-full hover:bg-zinc-800/30"
+              title="Puntuación"
             >
-              <FileText className="h-5 w-5 text-amber-500" />
-              <span className="sr-only">Tablero de Evidencias</span>
-              {newEvidencesCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-                  {newEvidencesCount}
-                </span>
-              )}
+              <Award className="h-5 w-5 text-amber-500" />
+              <span className="sr-only">Puntuación</span>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsCognitiveProgressOpen(true)}
+              className="rounded-full hover:bg-zinc-800/30"
+              title="Progreso Cognitivo"
+            >
+              <BrainCircuit className="h-5 w-5 text-amber-500" />
+              <span className="sr-only">Progreso Cognitivo</span>
+            </Button>
+            <div className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  setIsEvidenceModalOpen(true);
+                  resetNewEvidencesCount();
+                }}
+                className="rounded-full hover:bg-zinc-800/30 relative"
+                title="Tablero de Evidencias"
+              >
+                <FileText className="h-5 w-5 text-amber-500" />
+                <span className="sr-only">Tablero de Evidencias</span>
+                {newEvidencesCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                    {newEvidencesCount}
+                  </span>
+                )}
+              </Button>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsSuspectHistoryModalOpen(true)}
+              className="rounded-full hover:bg-zinc-800/30"
+              title="Historial de Sospechosos"
+            >
+              <User className="h5 w-5 text-amber-500" />
+              <span className="sr-only">Historial de Sospechosos</span>
             </Button>
           </div>
           <Button
@@ -243,13 +278,7 @@ export default function BiasLevelPage() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <SuspectHistory />
-          <div className="space-y-6">
-            <CognitiveProgressBar />
-            <ScoreCard />
-          </div>
-        </div>
+  
 
         {pendingDecisions.length > 0 && (
           <Card className="dotted-border bg-card/50 backdrop-blur-sm">
@@ -329,6 +358,37 @@ export default function BiasLevelPage() {
         size="xl"
       >
         <EvidenceBoard />
+      </Modal>
+
+      <Modal
+        isOpen={isSuspectHistoryModalOpen}
+        onClose={() => setIsSuspectHistoryModalOpen(false)}
+        title="Historial de Sospechosos"
+        size="xl"
+      >
+        <SuspectHistory />
+      </Modal>
+
+      <Modal
+        isOpen={isCognitiveProgressOpen}
+        onClose={() => setIsCognitiveProgressOpen(false)}
+        title="Progreso Cognitivo"
+        size="md"
+      >
+        <div className="p-4">
+          <CognitiveProgressBar />
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={isScoreCardOpen}
+        onClose={() => setIsScoreCardOpen(false)}
+        title="Tu Puntuación"
+        size="md"
+      >
+        <div className="p-4">
+          <ScoreCard />
+        </div>
       </Modal>
     </div>
   )
