@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Brain } from "lucide-react";
 import { useGameStore } from "@/store/game-store";
@@ -17,8 +18,14 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-4">
       <div className="flex flex-col items-center justify-center flex-1 pb-8">
-        <div className="text-zinc-800 text-[190px] text-center font-bold ">
-          ⫘
+        <div className="relative w-64 h-64 mb-8">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            fill
+            className="object-contain"
+            priority
+          />
         </div>
         <div className="space-y-4">
           <Button
@@ -36,13 +43,13 @@ export default function Home() {
           </Button>
         </div>
       </div>
-
-      <div className="flex items-center justify-center flex-none w-full pb-4 text-muted-foreground">
-        <div className="flex items-center justify-center gap-2">
-          <Brain className="h-6 w-6" />
-          <p>Desarrollado para el aprendizaje sobre sesgos cognitivos</p>
+      <Brain className="h-6 w-6 text-amber-500" />
+      <div className="flex items-center justify-center flex-none w-full  text-muted-foreground">
+        <div className="flex items-center justify-center">
+          <p className="text-zinc-700">Sesgos Cognitivos.</p>
         </div>
       </div>
+      <p className="text-zinc-600">2025</p>
     </div>
   );
 }
