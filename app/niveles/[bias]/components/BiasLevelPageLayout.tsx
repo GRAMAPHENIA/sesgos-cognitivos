@@ -4,7 +4,14 @@ import { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BiasType } from "../types/bias-level.types";
-import { ArrowLeft, Award, Clock, FileText, Users, Lightbulb } from "lucide-react";
+import {
+  ArrowLeft,
+  Clock,
+  FileText,
+  Users,
+  BrainCircuit,
+  Medal,
+} from "lucide-react";
 
 interface BiasLevelPageLayoutProps {
   children: ReactNode;
@@ -52,19 +59,19 @@ export function BiasLevelPageLayout({
           <div className="flex items-center gap-1">
             <button
               onClick={onOpenScoreCard}
-              className="p-2 rounded-full hover:bg-zinc-800/30 transition-colors"
+              className="p-2 rounded-md hover:bg-zinc-800/30 transition-colors"
               title="Puntuación"
             >
-              <Award className="h-5 w-5 text-amber-500" />
+              <Medal className="h-6 w-6 text-amber-500" />
               <span className="sr-only">Puntuación</span>
             </button>
 
             <button
               onClick={onOpenCognitiveProgress}
-              className="p-2 rounded-full hover:bg-zinc-800/30 transition-colors"
+              className="p-2 rounded-md hover:bg-zinc-800/30 transition-colors"
               title="Progreso Cognitivo"
             >
-              <Clock className="h-5 w-5 text-amber-500" />
+              <Clock className="h-6 w-6 text-amber-500" />
               <span className="sr-only">Progreso Cognitivo</span>
             </button>
 
@@ -74,13 +81,13 @@ export function BiasLevelPageLayout({
                   onOpenEvidenceBoard();
                   onResetNewEvidencesCount();
                 }}
-                className="p-2 rounded-full hover:bg-zinc-800/30 transition-colors relative"
+                className="p-2 rounded-md hover:bg-zinc-800/30 transition-colors relative"
                 title="Tablero de Evidencias"
               >
-                <FileText className="h-5 w-5 text-amber-500" />
+                <FileText className="h-6 w-6 text-amber-500" />
                 <span className="sr-only">Tablero de Evidencias</span>
                 {newEvidencesCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                  <span className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
                     {newEvidencesCount}
                   </span>
                 )}
@@ -89,23 +96,23 @@ export function BiasLevelPageLayout({
 
             <button
               onClick={onOpenSuspectHistory}
-              className="p-2 rounded-full hover:bg-zinc-800/30 transition-colors"
+              className="p-2 rounded-md hover:bg-zinc-800/30 transition-colors"
               title="Historial de Sospechosos"
             >
-              <Users className="h-5 w-5 text-amber-500" />
+              <Users className="h-6 w-6 text-amber-500" />
               <span className="sr-only">Historial de Sospechosos</span>
             </button>
           </div>
 
           <button
             onClick={onOpenHypothesisTracker}
-            className="p-2 rounded-full hover:bg-zinc-800/30 transition-colors"
+            className="p-2 rounded-md hover:bg-zinc-800/30 transition-colors"
             title="Rastreador de Hipótesis"
           >
-            <Lightbulb className="h-5 w-5 text-amber-500" />
+            <BrainCircuit className="h-6 w-6 text-amber-500" />
             <span className="sr-only">Rastreador de Hipótesis</span>
           </button>
-          
+
           <ThemeToggle />
         </div>
       </div>
@@ -131,9 +138,6 @@ export function BiasLevelPageLayout({
           ))}
         </div>
       </div>
-
-      {/* Fondo decorativo */}
-      <div className="fixed inset-0 -z-10 bg-grid-zinc-900/50 [mask-image:linear-gradient(0deg,transparent,black)]" />
     </div>
   );
 }

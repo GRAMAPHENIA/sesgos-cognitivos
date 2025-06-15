@@ -18,9 +18,9 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-4">
       <div className="flex flex-col items-center justify-center flex-1 pb-8">
-        <div className="relative w-64 h-64 mb-8">
+        <div className="relative w-72 h-72 mb-8">
           <Image
-            src="/logo.svg"
+            src="/logo-sesgo.svg"
             alt="Logo"
             fill
             className="object-contain"

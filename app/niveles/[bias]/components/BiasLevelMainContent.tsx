@@ -51,7 +51,7 @@ export function BiasLevelMainContent({
                   <span className="flex-1 text-zinc-500">{option.text}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-orange-500 ml-2 flex-shrink-0"
+                    className="h-5 w-5 text-amber-500 ml-2 flex-shrink-0"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
